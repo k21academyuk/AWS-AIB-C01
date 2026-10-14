@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AIB-C01 Mock Test 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one-screen exam console. Navy console bar on top, question navigator under it,
+   question card in a 860px reading column, fixed action bar at the bottom. Light theme by design (K21 brand). */
+:root{
+  --bg:#F7F8FA; --surface:#FFFFFF; --border:#E8EAEE; --border-2:#D5D9E0;
+  --text-1:#111827; --text-2:#4B5563; --text-3:#8A93A3;
+  --green:#8DC63F; --green-mid:#79B030; --green-bg:#F1F8E8; --green-line:#C8E89A; --green-dark:#3D6B15;
+  --navy:#1A1248; --navy-mid:#2E2080; --navy-soft:#EEECF8;
+  --amber:#B45309; --amber-bg:#FEF3C7; --amber-line:#F5C451;
+  --red:#B91C1C; --red-bg:#FEF2F2; --red-line:#F3B4B4;
+  --font:'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono:'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --radius:16px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text-1);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--navy-mid);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.wrap-wide{max-width:1080px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+h1,h2,h3{text-wrap:balance;margin:0}
+.no-select{user-select:none;-webkit-user-select:none}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:100px;border:1.5px solid var(--border-2);background:var(--surface);color:var(--text-1);font-weight:700;font-size:14px;padding:10px 20px;transition:background .15s,border-color .15s,transform .15s}
+.btn:hover{border-color:var(--navy);}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-navy{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 4px 16px rgba(26,18,72,.2)}
+.btn-navy:hover{background:var(--navy-mid);border-color:var(--navy-mid)}
+.btn-green{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 4px 16px rgba(141,198,63,.35)}
+.btn-green:hover{background:var(--green-mid);border-color:var(--green-mid)}
+.btn-danger{color:var(--red);border-color:var(--red-line)}
+.btn-danger:hover{background:var(--red-bg);border-color:var(--red)}
+.btn-lg{padding:14px 30px;font-size:15px}
+.btn svg{width:16px;height:16px}
+
+.eyebrow{display:inline-flex;align-items:center;gap:7px;background:var(--green-bg);border:1px solid var(--green-line);color:var(--green-dark);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:100px}
+.eyebrow i{width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block}
+
+/* ---------- top brand bar (start + results) ---------- */
+.brandbar{background:var(--navy);color:#fff}
+.brandbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em;font-size:17px}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(141,198,63,.25)}
+.brand small{font-weight:500;color:#B9B4DC;font-size:13px;letter-spacing:0}
+.code-chip{font-family:var(--mono);font-size:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:4px 10px;border-radius:8px;color:#E3E0F5}
+
+/* ---------- start screen ---------- */
+#start{padding-bottom:48px}
+.start-hero{padding-block:36px 8px;display:grid;gap:14px}
+.start-hero h1{font-size:clamp(26px,3.6vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.15}
+.start-hero h1 span{color:var(--green-mid)}
+.start-hero p{color:var(--text-2);max-width:62ch;margin:0;font-size:16px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);margin-top:22px;overflow:hidden}
+.fact{padding:16px 18px;border-right:1px solid var(--border);min-width:0}
+.fact:last-child{border-right:0}
+.fact b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.fact span{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.sample-note{margin-top:12px;font-size:13px;color:var(--text-2);background:var(--navy-soft);border-radius:10px;padding:10px 14px}
+.panel{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:22px;margin-top:18px}
+.panel h2{font-size:17px;font-weight:800;margin-bottom:12px;letter-spacing:-.01em}
+.domains{display:grid;gap:10px}
+.dom-row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center}
+.dom-num{font-family:var(--mono);font-size:12px;color:var(--text-3)}
+.dom-bar{height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin-top:6px}
+.dom-bar i{display:block;height:100%;background:var(--green)}
+.dom-w{font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
+.rules{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.rules li{display:grid;grid-template-columns:22px 1fr;gap:10px;color:var(--text-2)}
+.rules li svg{width:18px;height:18px;margin-top:2px;color:var(--navy-mid)}
+.rules li.warn svg{color:var(--red)}
+.rules li b{color:var(--text-1)}
+.field{display:grid;gap:6px;margin-top:4px}
+.field label{font-weight:700;font-size:14px}
+.field input{border:1.5px solid var(--border-2);border-radius:12px;padding:12px 14px;background:var(--surface);font-size:15px}
+.field input:focus{border-color:var(--navy-mid);outline:none;box-shadow:0 0 0 3px var(--navy-soft)}
+.agree{display:flex;gap:10px;align-items:flex-start;margin-top:16px;color:var(--text-2);font-size:14px}
+.agree input{width:18px;height:18px;margin-top:2px;accent-color:var(--navy)}
+.field input.invalid{border-color:var(--red);box-shadow:0 0 0 3px var(--red-bg)}
+.agree.invalid{color:var(--red);background:var(--red-bg);border-radius:10px;padding:8px 10px;margin-left:-10px}
+.start-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:20px}
+.form-msg{color:var(--red);font-size:14px;font-weight:600}
+.notice{margin-top:18px;border:1.5px solid var(--red-line);background:var(--red-bg);color:var(--red);border-radius:12px;padding:12px 16px;font-weight:600;font-size:14px}
+
+/* ---------- exam console ---------- */
+#exam{min-height:100%;display:flex;flex-direction:column}
+.xbar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--navy);color:#fff;box-shadow:0 2px 12px rgba(17,10,60,.25)}
+.xbar-in{display:flex;align-items:center;gap:12px;padding-block:10px;justify-content:space-between}
+.xbar .brand{font-size:15px}
+.xbar .who{font-size:13px;color:#C9C5E8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.qpos{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.timer{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-weight:500;font-size:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:6px 12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.timer svg{width:15px;height:15px}
+.timer.warn{background:#FDE68A;color:#78350F;border-color:#FDE68A}
+.timer.crit{background:#FCA5A5;color:#7F1D1D;border-color:#FCA5A5;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.75}}
+.xbar-mid{display:flex;align-items:center;gap:14px;min-width:0}
+
+.statusbar{background:var(--surface);border-bottom:1px solid var(--border)}
+.statusbar .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-block:10px}
+.counts{display:flex;flex-wrap:wrap;gap:8px}
+.count{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--text-2);background:var(--bg);border:1px solid var(--border);border-radius:100px;padding:4px 11px;font-variant-numeric:tabular-nums}
+.count i{width:9px;height:9px;border-radius:3px;display:inline-block}
+.count .ia{background:var(--green)}
+.count .iu{background:var(--surface);border:1.5px solid var(--border-2)}
+.count .if{background:var(--amber-line)}
+.progress{height:4px;background:var(--border)}
+.progress i{display:block;height:100%;background:var(--green);transition:width .3s}
+.toggle-nav{border:0;background:none;color:var(--navy-mid);font-weight:700;font-size:13px;padding:4px 2px}
+
+.navwrap{background:var(--surface);border-bottom:1px solid var(--border)}
+.navgrid{display:flex;flex-wrap:wrap;gap:6px;padding-block:12px}
+.navbtn{position:relative;width:38px;height:34px;border-radius:8px;border:1.5px solid var(--border-2);background:var(--surface);font-size:13px;font-weight:700;color:var(--text-2);font-variant-numeric:tabular-nums;padding:0}
+.navbtn:hover{border-color:var(--navy-mid);color:var(--navy)}
+.navbtn.ans{background:var(--green-bg);border-color:var(--green);color:var(--green-dark)}
+.navbtn.flag::after{content:"";position:absolute;top:-5px;right:-5px;width:12px;height:12px;border-radius:50%;background:var(--amber-line);border:2px solid var(--surface)}
+.navbtn.cur{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 0 0 3px var(--navy-soft)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--text-3);padding-bottom:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:12px;border-radius:4px;display:inline-block;border:1.5px solid var(--border-2)}
+.legend .l-cur{background:var(--navy);border-color:var(--navy)}
+.legend .l-ans{background:var(--green-bg);border-color:var(--green)}
+.legend .l-flag{background:var(--amber-line);border-color:var(--amber-line);border-radius:50%;width:12px}
+
+main.qarea{flex:1;padding-block:22px 120px}
+.qcard{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:clamp(18px,3vw,30px);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.qlabel{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
+.flagbtn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--border-2);background:var(--surface);border-radius:100px;padding:7px 14px;font-weight:700;font-size:13px;color:var(--text-2)}
+.flagbtn svg{width:15px;height:15px}
+.flagbtn:hover{border-color:var(--amber)}
+.flagbtn[aria-pressed="true"]{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
+.stem{font-size:17px;line-height:1.7;max-width:70ch;white-space:pre-line}
+.selectn{display:inline-block;margin-top:12px;font-weight:800;color:var(--navy);background:var(--navy-soft);padding:4px 12px;border-radius:8px;font-size:14px}
+.options{display:grid;gap:10px;margin-top:20px}
+.opt{display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:border-color .12s,background .12s}
+.opt:hover{border-color:var(--navy-mid);background:#FAFAFE}
+.opt:has(input:focus-visible){outline:3px solid var(--navy-mid);outline-offset:2px}
+.opt .letter{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--border-2);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--text-2)}
+.opt.multi .letter{border-radius:8px}
+.opt .otext{padding-top:4px;line-height:1.6;min-width:0}
+.opt.sel{border-color:var(--green);background:var(--green-bg)}
+.opt.sel .letter{background:var(--green);border-color:var(--green);color:#fff}
+.limit-msg{margin-top:12px;font-size:13px;color:var(--amber);font-weight:600;min-height:20px}
+
+.fbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--border);box-shadow:0 -4px 18px rgba(17,24,39,.06);padding-bottom:env(safe-area-inset-bottom, 0px)}
+.fbar-in{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:12px;flex-wrap:wrap}
+.fbar-group{display:flex;gap:8px;flex-wrap:wrap}
+
+/* review page */
+.review-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.review-head h2{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.review-head p{margin:4px 0 0;color:var(--text-2);font-size:14px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.fchip{border:1.5px solid var(--border-2);background:var(--surface);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:700;color:var(--text-2)}
+.fchip[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.rtile{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;border:1.5px solid var(--border);background:var(--surface);border-radius:12px;padding:10px 12px;font-size:14px}
+.rtile:hover{border-color:var(--navy-mid)}
+.rtile b{font-variant-numeric:tabular-nums}
+.rtile .st{font-size:12px;font-weight:700;padding:2px 8px;border-radius:100px}
+.st-a{background:var(--green-bg);color:var(--green-dark)}
+.st-u{background:var(--red-bg);color:var(--red)}
+.rtile .fl{color:var(--amber);font-size:12px;font-weight:700}
+.empty{color:var(--text-3);padding:24px;text-align:center;border:1.5px dashed var(--border-2);border-radius:12px}
+
+/* ---------- modal ---------- */
+.modal-back{position:fixed;inset:0;z-index:50;background:rgba(17,10,60,.55);display:grid;place-items:center;padding:20px max(16px, env(safe-area-inset-right, 0px)) 20px max(16px, env(safe-area-inset-left, 0px))}
+.modal{background:var(--surface);border-radius:20px;max-width:480px;width:100%;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.modal h3{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.modal p{color:var(--text-2);margin:10px 0 0}
+.modal .mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.mstat{background:var(--bg);border-radius:12px;padding:10px;text-align:center}
+.mstat b{display:block;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.mstat span{font-size:12px;color:var(--text-3);font-weight:600}
+.modal .mact{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
+.modal.danger h3{color:var(--red)}
+
+/* ---------- results ---------- */
+#results{padding-bottom:56px}
+.res-hero{margin-top:26px;border-radius:20px;padding:clamp(20px,3vw,32px);color:#fff;background:var(--navy);position:relative;overflow:hidden}
+.res-hero.pass{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%)}
+.res-hero.fail{background:linear-gradient(135deg,#2A1730 0%,var(--navy) 100%)}
+.res-top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.verdict{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:100px}
+.pass .verdict{background:var(--green);color:#fff}
+.fail .verdict{background:#FCA5A5;color:#7F1D1D}
+.res-hero h1{font-size:clamp(22px,3vw,30px);font-weight:800;margin-top:12px;letter-spacing:-.02em}
+.res-hero .sub{color:#C9C5E8;margin-top:4px;font-size:14px}
+.score{text-align:left}
+.score b{font-size:clamp(44px,7vw,64px);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.score span{display:block;color:#C9C5E8;font-size:13px;margin-top:4px}
+.scale{margin-top:22px}
+.scale-track{position:relative;height:10px;background:rgba(255,255,255,.15);border-radius:10px}
+.scale-fill{position:absolute;left:0;top:0;bottom:0;border-radius:10px;background:var(--green)}
+.fail .scale-fill{background:#FCA5A5}
+.scale-mark{position:absolute;top:-6px;bottom:-6px;width:2px;background:#fff}
+.scale-labels{position:relative;height:18px;margin-top:8px;font-size:12px;color:#C9C5E8;font-family:var(--mono)}
+.scale-labels span{position:absolute;transform:translateX(-50%)}
+.scale-labels span:first-child{transform:none}
+.scale-labels span:last-child{transform:translateX(-100%)}
+.term-note{margin-top:18px;background:rgba(252,165,165,.15);border:1px solid rgba(252,165,165,.4);color:#FECACA;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600}
+.res-stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);margin-top:16px;overflow:hidden}
+.res-stats div{padding:14px 16px;border-right:1px solid var(--border);min-width:0}
+.res-stats div:last-child{border-right:0}
+.res-stats b{display:block;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.res-stats span{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.dres{display:grid;gap:14px}
+.dres-row{display:grid;gap:6px}
+.dres-top{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.dres-top b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.dres-track{height:8px;background:var(--border);border-radius:8px;overflow:hidden}
+.dres-track i{display:block;height:100%;border-radius:8px}
+.lvl{font-size:12px;font-weight:700;padding:2px 8px;border-radius:100px;margin-left:6px}
+.lvl-ok{background:var(--green-bg);color:var(--green-dark)}
+.lvl-mid{background:var(--amber-bg);color:var(--amber)}
+.lvl-low{background:var(--red-bg);color:var(--red)}
+.disclaim{font-size:12px;color:var(--text-3);margin-top:14px}
+
+.rv-list{display:grid;gap:12px;margin-top:14px}
+.rv{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;overflow:hidden}
+.rv summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px 16px}
+.rv summary::-webkit-details-marker{display:none}
+.rv-badge{font-size:12px;font-weight:800;padding:3px 10px;border-radius:100px;white-space:nowrap}
+.b-ok{background:var(--green-bg);color:var(--green-dark)}
+.b-no{background:var(--red-bg);color:var(--red)}
+.b-un{background:var(--bg);color:var(--text-3);border:1px solid var(--border-2)}
+.rv-sum{font-size:14px;color:var(--text-1);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-width:0}
+.rv-sum small{color:var(--text-3);font-weight:700;margin-right:6px;font-family:var(--mono)}
+.rv-meta{font-size:12px;color:var(--text-3);white-space:nowrap}
+.rv-body{border-top:1px solid var(--border);padding:16px;display:grid;gap:12px}
+.rv-domain{font-size:12px;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.rv-stem{white-space:pre-line;line-height:1.65}
+.rv-opt{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px}
+.rv-opt .letter{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;border:1.5px solid var(--border-2);color:var(--text-2)}
+.rv-opt.correct{border-color:var(--green);background:var(--green-bg)}
+.rv-opt.correct .letter{background:var(--green);border-color:var(--green);color:#fff}
+.rv-opt.wrong{border-color:var(--red-line);background:var(--red-bg)}
+.rv-opt.wrong .letter{background:var(--red);border-color:var(--red);color:#fff}
+.rv-tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;padding-top:3px}
+.correct .rv-tag{color:var(--green-dark)}
+.wrong .rv-tag{color:var(--red)}
+.rv-exp{background:var(--navy-soft);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.65;color:var(--text-1)}
+.rv-exp b{color:var(--navy)}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+@media (max-width:700px){
+  .facts,.res-stats{grid-template-columns:repeat(2,1fr)}
+  .fact:nth-child(2),.res-stats div:nth-child(2){border-right:0}
+  .fact:nth-child(-n+2),.res-stats div:nth-child(-n+2){border-bottom:1px solid var(--border)}
+  .xbar .who{display:none}
+  .xbar .brand small{display:none}
+  .navbtn{width:34px;height:32px}
+  .fbar .btn{padding:9px 14px}
+  .score{text-align:left}
+  .modal .mstats{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:420px){
+  .xbar .brand span.bname{display:none}
+  .fbar-in{justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<!-- ================= START SCREEN ================= -->
+<section id="start">
+  <div class="brandbar">
+    <div class="wrap">
+      <div class="brand"><span class="brand-dot"></span><span class="bname">K21 Academy</span> <small>Mock Test 2</small></div>
+      <span class="code-chip">AIB-C01</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="start-hero">
+      <div><span class="eyebrow"><i></i>Mock test 2 · Real exam conditions</span></div>
+      <h1>AWS Certified AI Business Strategist <span>(AIB-C01)</span></h1>
+      <p>The second full-length mock test, with 65 new questions. It behaves like the real AWS exam: a running countdown, question navigator, flag for review, a review screen before you submit, and a locked test window.</p>
+    </div>
+
+    <div class="facts" role="list">
+      <div class="fact" role="listitem"><b id="f-q">65</b><span>Questions</span></div>
+      <div class="fact" role="listitem"><b id="f-t">130 min</b><span>Time limit</span></div>
+      <div class="fact" role="listitem"><b>700</b><span>Passing score</span></div>
+      <div class="fact" role="listitem"><b>100–1000</b><span>Score scale</span></div>
+    </div>
+    <div class="sample-note" id="sample-note" hidden></div>
+    <div class="notice" id="reload-notice" hidden>Your previous attempt was ended because the page was reloaded or closed while the exam was running.</div>
+
+    <div class="panel">
+      <h2>Exam domains</h2>
+      <div class="domains" id="domain-list"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Before you begin</h2>
+      <ul class="rules">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>The timer starts as soon as you begin and <b>cannot be paused</b>. When time runs out, the exam is submitted automatically.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg><span>Questions are <b>multiple choice</b> (one correct answer) or <b>multiple response</b> (two or more correct answers; the question says how many). Unanswered questions are scored as incorrect, and there is no penalty for guessing.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21V4h11l-1.5 4L16 12H5"/></svg><span>Use <b>Flag for review</b> to mark questions you want to revisit. The review screen shows every answered, unanswered, and flagged question.</span></li>
+        <li class="warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><span id="rule-lock"><b>Do not leave the exam window.</b> Switching tabs, minimizing the browser, opening another app, exiting full screen, or reloading the page <b>ends your exam immediately</b> and it is scored as submitted.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg><span>Copy, paste, right-click, and text selection are disabled during the exam. Close other apps and turn off notifications before you start.</span></li>
+      </ul>
+    </div>
+
+    <div class="panel" id="start-form">
+      <h2>Candidate details</h2>
+      <div class="field">
+        <label for="cand-name">Full name</label>
+        <input id="cand-name" name="cand-name" autocomplete="name" placeholder="As you want it on your score report" maxlength="60">
+      </div>
+      <label class="agree" for="agree" id="agree-row"><input type="checkbox" id="agree"> <span>I have read the exam rules and understand that leaving the exam window ends my attempt.</span></label>
+      <div class="start-actions">
+        <button class="btn btn-green btn-lg" type="button" id="start-btn">Start exam
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <span class="form-msg" id="form-msg" role="alert"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXAM CONSOLE ================= -->
+<section id="exam" hidden class="no-select">
+  <header class="xbar">
+    <div class="wrap wrap-wide xbar-in">
+      <div class="xbar-mid">
+        <div class="brand"><span class="brand-dot"></span><span class="bname">AIB-C01</span> <small>Mock Test 2</small></div>
+        <span class="who" id="x-who"></span>
+      </div>
+      <div class="xbar-mid">
+        <span class="qpos" id="x-pos" aria-live="polite">Question 1 of 65</span>
+        <span class="timer" id="x-timer" role="timer" aria-label="Time remaining">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>
+          <span id="x-time">00:00:00</span></span>
+      </div>
+    </div>
+    <div class="progress"><i id="x-prog" style="width:0%"></i></div>
+  </header>
+
+  <div class="statusbar">
+    <div class="wrap wrap-wide">
+      <div class="counts">
+        <span class="count"><i class="ia"></i><span id="c-ans">0</span> answered</span>
+        <span class="count"><i class="iu"></i><span id="c-rem">0</span> remaining</span>
+        <span class="count"><i class="if"></i><span id="c-flag">0</span> flagged</span>
+      </div>
+      <button class="toggle-nav" type="button" id="toggle-nav" aria-expanded="true" aria-controls="navwrap">Hide question navigator</button>
+    </div>
+  </div>
+
+  <div class="navwrap" id="navwrap">
+    <div class="wrap wrap-wide">
+      <nav class="navgrid" id="navgrid" aria-label="Question navigator"></nav>
+      <div class="legend">
+        <span><i class="l-cur"></i>Current</span>
+        <span><i class="l-ans"></i>Answered</span>
+        <span><i></i>Not answered</span>
+        <span><i class="l-flag"></i>Flagged for review</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="qarea">
+    <div class="wrap" id="q-view">
+      <article class="qcard">
+        <div class="qhead">
+          <span class="qlabel" id="q-label">Question 1</span>
+          <button class="flagbtn" type="button" id="flag-btn" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21V4h11l-1.5 4L16 12H5"/></svg>
+            <span id="flag-text">Flag for review</span></button>
+        </div>
+        <div class="stem" id="q-stem"></div>
+        <div id="q-select"></div>
+        <fieldset class="options" id="q-options" style="border:0;padding:0;margin-inline:0"></fieldset>
+        <div class="limit-msg" id="limit-msg" aria-live="polite"></div>
+      </article>
+    </div>
+
+    <div class="wrap wrap-wide" id="review-view" hidden>
+      <div class="review-head">
+        <div>
+          <h2>Review your answers</h2>
+          <p>Select a question to return to it. The timer keeps running on this screen.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter questions">
+          <button class="fchip" type="button" data-f="all" aria-pressed="true">All</button>
+          <button class="fchip" type="button" data-f="flag" aria-pressed="false">Flagged</button>
+          <button class="fchip" type="button" data-f="un" aria-pressed="false">Unanswered</button>
+          <button class="fchip" type="button" data-f="ans" aria-pressed="false">Answered</button>
+        </div>
+      </div>
+      <div class="rgrid" id="rgrid"></div>
+    </div>
+  </main>
+
+  <footer class="fbar">
+    <div class="wrap wrap-wide fbar-in">
+      <div class="fbar-group">
+        <button class="btn" type="button" id="prev-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Previous</button>
+        <button class="btn btn-navy" type="button" id="next-btn">Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="fbar-group">
+        <button class="btn" type="button" id="review-btn">Review all</button>
+        <button class="btn btn-danger" type="button" id="end-btn">End exam</button>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<!-- ================= RESULTS ================= -->
+<section id="results" hidden>
+  <div class="brandbar">
+    <div class="wrap">
+      <div class="brand"><span class="brand-dot"></span><span class="bname">K21 Academy</span> <small>Score report</small></div>
+      <span class="code-chip">AIB-C01</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="res-hero" id="res-hero">
+      <div class="res-top">
+        <div>
+          <span class="verdict" id="r-verdict">Pass</span>
+          <h1 id="r-title">Score report</h1>
+          <div class="sub" id="r-sub"></div>
+        </div>
+        <div class="score"><b id="r-score">0</b><span>Scaled score · pass at 700</span></div>
+      </div>
+      <div class="scale">
+        <div class="scale-track"><div class="scale-fill" id="r-fill"></div><div class="scale-mark" style="left:66.67%"></div></div>
+        <div class="scale-labels"><span style="left:0">100</span><span style="left:66.67%">700</span><span style="left:100%">1000</span></div>
+      </div>
+      <div class="term-note" id="r-term" hidden></div>
+    </div>
+
+    <div class="res-stats">
+      <div><b id="r-correct">0/0</b><span>Correct</span></div>
+      <div><b id="r-pct">0%</b><span>Percentage</span></div>
+      <div><b id="r-time">0:00</b><span>Time used</span></div>
+      <div><b id="r-un">0</b><span>Unanswered</span></div>
+    </div>
+
+    <div class="panel">
+      <h2>Performance by domain</h2>
+      <div class="dres" id="r-domains"></div>
+      <p class="disclaim">Practice scoring converts your percentage correct linearly to the 100 to 1,000 scale. The real AWS exam uses scaled scoring with unscored items, so treat this as a readiness indicator rather than an exact prediction.</p>
+    </div>
+
+    <div class="panel">
+      <div class="review-head" style="margin-bottom:0">
+        <div><h2 style="margin-bottom:0">Answer review</h2></div>
+        <div class="filters" role="group" aria-label="Filter answer review">
+          <button class="fchip" type="button" data-rf="all" aria-pressed="true">All</button>
+          <button class="fchip" type="button" data-rf="wrong" aria-pressed="false">Incorrect</button>
+          <button class="fchip" type="button" data-rf="right" aria-pressed="false">Correct</button>
+          <button class="fchip" type="button" data-rf="un" aria-pressed="false">Unanswered</button>
+          <button class="fchip" type="button" data-rf="flag" aria-pressed="false">Flagged</button>
+        </div>
+      </div>
+      <div class="rv-list" id="r-review"></div>
+    </div>
+
+    <div class="res-actions">
+      <button class="btn btn-navy btn-lg" type="button" id="retake-btn">Take a new attempt</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MODALS ================= -->
+<div class="modal-back" id="end-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="end-title">
+    <h3 id="end-title">End the exam?</h3>
+    <p id="end-text">Once you end the exam you cannot change your answers.</p>
+    <div class="mstats">
+      <div class="mstat"><b id="m-ans">0</b><span>Answered</span></div>
+      <div class="mstat"><b id="m-un">0</b><span>Unanswered</span></div>
+      <div class="mstat"><b id="m-flag">0</b><span>Flagged</span></div>
+    </div>
+    <div class="mact">
+      <button class="btn" type="button" id="m-review">Review answers</button>
+      <button class="btn" type="button" id="m-cancel">Return to exam</button>
+      <button class="btn btn-danger" type="button" id="m-end">End exam and see score</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-back" id="warn-modal" hidden>
+  <div class="modal danger" role="alertdialog" aria-modal="true" aria-labelledby="warn-title">
+    <h3 id="warn-title">You left the exam window</h3>
+    <p id="warn-text"></p>
+    <div class="mact"><button class="btn btn-navy" type="button" id="warn-ok">Return to exam</button></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIGURATION
+   ===================================================================== */
+const CONFIG = {
+  questionCount: 65,          // real exam: 65 scored questions (85 during beta)
+  durationMinutes: 130,       // real exam: 130 minutes (170 during beta)
+  passingScore: 700,          // scaled score on 100 to 1,000
+  shuffleQuestions: true,
+  shuffleOptions: true,
+  requireFullscreen: true,    // asks for full screen on start; leaving full screen counts as leaving the exam
+  maxWarnings: 0              // 0 = the exam ends on the first tab switch / focus loss / full-screen exit
+};
+
+const DOMAINS = {
+  1: { name: 'AI Fundamentals and Literacy', weight: 24 },
+  2: { name: 'AI Strategy and Business Value Creation', weight: 28 },
+  3: { name: 'AI Governance and Responsible AI Leadership', weight: 24 },
+  4: { name: 'Business Readiness, Leadership, and AI Transformation', weight: 24 }
+};
+
+/* =====================================================================
+   QUESTION BANK
+   Format per question:
+     { domain: 1-4, question: '...', options: ['A text','B text',...],
+       answer: [index, ...]  (0 = first option),
+       explanation: '...' }
+   Multiple-response questions are detected from answer.length > 1;
+   the "Select TWO/THREE" line is added automatically.
+   MOCK TEST 2. The set below has 65 original exam-style questions (none repeated from Mock Test 1), each mapped to a task
+   statement in the official AIB-C01 exam guide, weighted like the real exam:
+   D1 16, D2 18, D3 16, D4 15. Add more questions in the same format: when the
+   bank grows beyond 65, each attempt draws 65 by domain weight.
+   ===================================================================== */
+const QUESTION_BANK = [
+  /* ================= Domain 1: AI Fundamentals and Literacy (16) ================= */
+  { domain: 1,
+    question: "A board member asks the strategy team to explain how artificial intelligence (AI), machine learning (ML), and generative AI (GenAI) relate to each other.\nWhich statement is accurate?",
+    options: [
+      "GenAI is a subset of ML, and ML is a subset of AI.",
+      "AI is a subset of ML, and GenAI is separate from both.",
+      "ML and GenAI are unrelated technologies that both fall under data analytics.",
+      "GenAI includes all of AI, and ML is a type of GenAI."
+    ],
+    answer: [0],
+    explanation: "AI is the broad field of systems that perform tasks associated with human intelligence. ML is a subset of AI in which systems learn patterns from data. GenAI is a subset of ML, built on large deep learning models, that produces new content such as text, images, or code." },
+
+  { domain: 1,
+    question: "A data scientist tells a business sponsor: \"We ran a gradient boosting algorithm on five years of loan data, and it produced a model that we deployed last week.\"\nWhat is the MODEL in this statement?",
+    options: [
+      "The five years of historical loan data.",
+      "The general step-by-step learning procedure called gradient boosting.",
+      "The trained artifact that captures learned patterns and turns new loan inputs into predictions.",
+      "The dashboard where loan officers view the results."
+    ],
+    answer: [2],
+    explanation: "An algorithm is the learning procedure. Training applies it to data, and the result is a model: the learned artifact used at inference time to make predictions on new inputs. The data is the training input, and the dashboard only displays outputs." },
+
+  { domain: 1,
+    question: "A subscription company's churn model gives one customer a score of 0.82. A sales manager asks whether this means the customer will definitely cancel.\nWhat is the BEST explanation?",
+    options: [
+      "Yes. A score above 0.8 is a confirmed cancellation.",
+      "The score is the model's estimated likelihood of churn based on patterns in similar past customers. It is a probability, not a certainty.",
+      "The score shows that 82% of the customer's data fields are complete.",
+      "The score shows that the model is 82% accurate across all customers."
+    ],
+    answer: [1],
+    explanation: "ML predictions are probabilistic: a score expresses estimated likelihood based on learned patterns, and some high-scoring customers will not churn. That is why businesses set thresholds and decide actions based on risk. The score is not a data-completeness measure or a statement of overall model accuracy." },
+
+  { domain: 1,
+    question: "An online retailer's dynamic pricing model uses competitor price data that is refreshed once per quarter. Competitors change their prices daily, and the model's price recommendations are often out of line with the market.\nWhich data quality dimension is the MAIN problem?",
+    options: ["Completeness", "Timeliness", "Uniqueness", "Validity"],
+    answer: [1],
+    explanation: "Timeliness means data is current enough for its purpose. Quarterly data cannot reflect prices that change daily, so the model learns and acts on a stale picture of the market. The data may be complete, unique, and valid and still be too old to be useful." },
+
+  { domain: 1,
+    question: "A hospital group trained a readmission-risk model on five years of data from its large urban hospitals. When the model is deployed in its small rural clinics, its predictions are much less accurate.\nWhat is the MOST likely reason?",
+    options: [
+      "The model is running on slower hardware at the rural clinics.",
+      "The training data did not represent the patient population and conditions at the rural clinics.",
+      "Five years of data is too much history for a model to learn from.",
+      "The rural clinics are entering data in a different time zone."
+    ],
+    answer: [1],
+    explanation: "A model learns patterns from its historical training data, so it performs best on cases that resemble that data. Rural patients, care pathways, and resources differ from urban ones, so the model generalizes poorly. Hardware speed and time zones do not reduce accuracy, and more history is usually helpful when it is relevant." },
+
+  { domain: 1,
+    question: "A grocery chain is preparing two years of sales transactions to train a demand forecasting model.\nWhich data issues should the team fix BEFORE training?",
+    options: [
+      "The same transactions appear twice because two point-of-sale systems both exported them.",
+      "About 15% of records are missing the store identifier.",
+      "The data is stored in a cloud data warehouse.",
+      "The data includes transactions made on weekends.",
+      "The dataset is larger than 1 GB."
+    ],
+    answer: [0, 1],
+    explanation: "Duplicate records inflate demand, and missing store identifiers make records impossible to attribute to a location. Both would teach the model wrong patterns. Where data is stored, its size, and the presence of weekend sales are not quality problems; weekend sales are real demand the model needs." },
+
+  { domain: 1,
+    question: "A company's AI governance lead is presenting ISO/IEC 42001 to the executive team.\nWhich statement correctly describes this standard?",
+    options: [
+      "It defines a shared vocabulary and conceptual framework for the components of machine learning systems.",
+      "It specifies requirements for an AI management system (policies, roles, risk assessment, and continual improvement) that an organization can be certified against.",
+      "It is a regional law that sets fines for prohibited AI practices.",
+      "It is an AWS framework for planning cloud migrations."
+    ],
+    answer: [1],
+    explanation: "ISO/IEC 42001 is a management system standard for governing AI responsibly across an organization, and conformance can be independently certified. The shared ML vocabulary describes ISO/IEC 23053. A regional AI law is legislation, not an ISO standard, and AWS CAF is AWS's adoption framework." },
+
+  { domain: 1,
+    question: "An operations director is reviewing four automation candidates.\nWhich process is BEST suited to rule-based automation rather than AI?",
+    options: [
+      "Auto-approving expense claims under $50 that include a receipt and use an allowed expense category, as defined in the travel policy.",
+      "Detecting frustrated customers from the wording of their support emails.",
+      "Forecasting daily foot traffic for each store.",
+      "Reading handwritten notes on scanned delivery forms."
+    ],
+    answer: [0],
+    explanation: "When the decision follows explicit, stable conditions (an amount limit, a receipt present, an allowed category), fixed rules are simpler, cheaper, and fully predictable. Detecting tone, forecasting traffic, and reading handwriting involve patterns that are hard to write as rules, which is where AI adds value." },
+
+  { domain: 1,
+    question: "A manufacturer deploys an AI procurement agent. The agent may place purchase orders automatically when the order is under $1,000 and the supplier is on the approved list. Larger orders or new suppliers require a buyer's approval before the order is placed.\nWhich design principle does this configuration demonstrate?",
+    options: [
+      "Full autonomy, because the agent acts without human input.",
+      "Bounded autonomy, where the agent acts independently within defined limits and escalates to people beyond them.",
+      "Rule-based automation, because no AI is involved.",
+      "Fine-tuning, because the agent learned the thresholds from data."
+    ],
+    answer: [1],
+    explanation: "AI agents can act autonomously, but responsible designs set boundaries such as spending limits and approved suppliers, and require human approval beyond them. The agent is not fully autonomous, it still uses AI to plan and act, and the limits are configured rather than learned through fine-tuning." },
+
+  { domain: 1,
+    question: "A support team wants its AI agent to look up customer records in the CRM, create tickets in the ticketing system, and search the knowledge base. The team wants to use one standard way to connect the agent to these tools rather than writing a custom integration for each one.\nWhich approach BEST fits this need?",
+    options: [
+      "Model Context Protocol (MCP), which standardizes how agents connect to tools and data sources.",
+      "An agent-to-agent (A2A) protocol, which standardizes communication between separate agents.",
+      "Fine-tuning the model on the CRM's database schema.",
+      "Copying each system's data into the agent's prompt."
+    ],
+    answer: [0],
+    explanation: "MCP provides a common interface for agents to discover and use tools and data sources, so each system is connected once in a standard way. A2A is for agents talking to other agents. Fine-tuning does not let the model act in other systems, and copying data into prompts is not a way to take actions such as creating tickets." },
+
+  { domain: 1,
+    question: "A card issuer's fraud model performed well at launch. A year later, the analytics team is asked whether the model still works as intended.\nWhich signals would indicate model drift?",
+    options: [
+      "The distribution of transaction features in production has shifted noticeably from the training baseline.",
+      "Accuracy measured against newly confirmed fraud cases has steadily declined.",
+      "Average response time increased after the endpoint moved to a new instance type.",
+      "The number of cardholders using the bank's app has grown.",
+      "Monthly cloud costs for the endpoint increased."
+    ],
+    answer: [0, 1],
+    explanation: "Drift shows up as changes in input data compared with the training baseline (data drift) and as declining performance against fresh ground truth, for example when fraudsters change tactics (concept drift). Latency, user growth, and cost are operational metrics, not evidence that predictions have become less reliable." },
+
+  { domain: 1,
+    question: "A company publishes an internal list showing every known AI tool as approved, blocked, or under evaluation, together with a form to request a review of a new tool.\nWhat is the PRIMARY way this reduces shadow AI risk?",
+    options: [
+      "It removes the need for any security review of AI tools.",
+      "It gives employees a clear, sanctioned path to use AI tools safely, so they are less likely to adopt unreviewed tools on their own.",
+      "It guarantees that employees can never reach blocked tools.",
+      "It lets each department decide its own tool policy."
+    ],
+    answer: [1],
+    explanation: "Shadow AI grows when people do not know what is allowed or have no route to get a tool approved. Transparent classification plus a request process makes the safe path the easy path. It still relies on security reviews, it needs technical controls to actually prevent access, and it keeps policy consistent rather than per department." },
+
+  { domain: 1,
+    question: "An insurer's GenAI assistant must decide whether a claim qualifies under a policy with several conditions, exclusions, and waiting periods. When all of this is handled in one prompt, the assistant often skips a condition and reaches the wrong conclusion.\nWhich prompt engineering technique is MOST likely to improve accuracy?",
+    options: [
+      "Break the task into a sequence of smaller prompts, for example extract the facts, check each condition, and then decide, with each step using the previous result.",
+      "Increase the temperature so the model explores more possible answers.",
+      "Remove the policy context to make the prompt shorter.",
+      "Ask the model to answer in a single word."
+    ],
+    answer: [0],
+    explanation: "Decomposing a complex task into ordered steps (prompt chaining) gives the model one focused job at a time and makes each step easier to check. Higher temperature adds randomness, removing context takes away the rules the model needs, and forcing a one-word answer removes the reasoning that helps it get the conditions right." },
+
+  { domain: 1,
+    question: "An internal IT help assistant answers questions from a set of approved IT articles. Employees report that it sometimes gives confident answers about topics the articles do not cover.\nWhich prompt change BEST reduces this behavior?",
+    options: [
+      "Tell the model to answer only from the provided articles, and to say that it does not know and suggest contacting the IT desk when the answer is not in them.",
+      "Tell the model to use its general knowledge to fill any gaps.",
+      "Raise the temperature to make answers more creative.",
+      "Ask the model to make answers longer and more detailed."
+    ],
+    answer: [0],
+    explanation: "Grounding instructions limit answers to approved content and give the model an explicit, acceptable way to decline, which reduces made-up answers. Encouraging general knowledge, higher temperature, or longer answers all increase the chance of unsupported content." },
+
+  { domain: 1,
+    question: "A team estimated the monthly cost of its RAG chatbot by multiplying the expected number of user questions by the average length of a user's question. The actual bill is many times higher than the estimate.\nWhat did the estimate MOST likely leave out?",
+    options: [
+      "The cost of storing the chatbot's source code.",
+      "The tokens in the system prompt and retrieved document passages sent with every request, and the tokens in the model's responses.",
+      "The number of employees in the company.",
+      "The cost of the internet connection used by employees."
+    ],
+    answer: [1],
+    explanation: "Generative AI usage is typically priced on input and output tokens. Each RAG request includes the system prompt and retrieved passages, often far longer than the user's question, plus the generated answer. Leaving these out greatly underestimates cost and can also cause context window limits to be reached." },
+
+  { domain: 1,
+    question: "An electronics retailer is choosing between retrieval-augmented generation (RAG) and fine-tuning for its product-advice assistant.\nWhich requirements are better addressed by RAG?",
+    options: [
+      "Answers must reflect the product catalog and prices, which change every day.",
+      "Answers must cite the product pages they are based on.",
+      "The assistant must consistently write in a brand voice learned from 10,000 approved examples.",
+      "The assistant must follow a specialized response structure that prompting alone cannot achieve.",
+      "The model must permanently learn a new language."
+    ],
+    answer: [0, 1],
+    explanation: "RAG retrieves current content at request time, so daily changes appear without retraining, and the retrieved sources make citations possible. A consistent style or specialized structure learned from many examples is a fine-tuning use case, and teaching a model a new language is beyond either technique's typical business use." },
+
+  /* ================= Domain 2: AI Strategy and Business Value Creation (18) ================= */
+  { domain: 2,
+    question: "An executive team is mapping AI capabilities to business outcomes across functions.\nWhich pairings are correctly matched?",
+    options: [
+      "Software development: an AI coding assistant, measured by reduced cycle time to deliver features.",
+      "Sales: an ML lead-scoring model, measured by a higher conversion rate from qualified leads.",
+      "Customer operations: a demand forecasting model, measured by shorter call handle times.",
+      "Marketing: invoice text extraction, measured by higher brand awareness.",
+      "Research and development: a payroll chatbot, measured by more patents filed."
+    ],
+    answer: [0, 1],
+    explanation: "Good use-case mapping links a capability to the outcome it directly affects. Coding assistants speed up development, and lead scoring focuses sellers on prospects likely to convert. The other pairings use capabilities that do not drive the stated outcome." },
+
+  { domain: 2,
+    question: "A specialty insurer wants an AI underwriting model built on its proprietary 20-year loss data, which is a key differentiator. It has no internal ML engineers, needs a production solution in nine months, and wants its own team to be able to run the solution later.\nWhich approach BEST fits these needs?",
+    options: [
+      "Build the model alone after hiring a full ML team.",
+      "Buy a generic off-the-shelf underwriting tool that does not use the insurer's data.",
+      "Partner with an experienced AI implementation partner to build the model on the insurer's data, with a plan to transfer knowledge to internal staff.",
+      "Wait until an off-the-shelf product trained on similar data becomes available."
+    ],
+    answer: [2],
+    explanation: "Partnering combines external expertise and speed with a solution built on the insurer's differentiating data, and knowledge transfer builds internal capability for the long term. Building alone is unrealistic in nine months with no team, a generic tool wastes the proprietary data, and waiting gives up the advantage." },
+
+  { domain: 2,
+    question: "Leadership is reviewing four AI opportunities.\nWhich situation MOST strongly favors BUILDING the solution in-house?",
+    options: [
+      "A standard capability, such as meeting transcription, that many secure vendors already offer.",
+      "A capability at the core of the company's competitive edge that depends on proprietary data, where the company has a strong ML team and no vendor meets its needs.",
+      "A one-off analysis needed next month by a team with no ML experience.",
+      "A capability required by a regulator within six weeks, for which certified vendor solutions already exist."
+    ],
+    answer: [1],
+    explanation: "Building makes sense when the capability differentiates the business, relies on unique data, the skills exist in-house, and the market cannot meet the need. Commodity capabilities, short deadlines without skills, and regulatory deadlines with certified vendors all favor buying or partnering." },
+
+  { domain: 2,
+    question: "A legal department is comparing vendor proposals for an AI contract-review tool.\nWhich factors should weigh MOST heavily in the evaluation?",
+    options: [
+      "The vendor's data-handling terms, including whether customer documents are used to train its models, and its security controls.",
+      "Total cost at the expected document volume, including integration, usage-based fees, and support.",
+      "The vendor's number of social media followers.",
+      "Which vendor gave the most impressive live demonstration.",
+      "The lowest first-year license price, regardless of later costs."
+    ],
+    answer: [0, 1],
+    explanation: "For confidential legal documents, data-use terms and security controls are critical, and total cost at real volume shows the true investment. Popularity and demo polish do not show fitness for purpose, and the lowest first-year price can hide much higher costs later." },
+
+  { domain: 2,
+    question: "A strategy team has scored four AI initiatives:\nInitiative 1: high business value, high feasibility.\nInitiative 2: high business value, low feasibility (its data does not yet exist).\nInitiative 3: low business value, high feasibility.\nInitiative 4: low business value, low feasibility.\nWhich initiative should the team pursue FIRST?",
+    options: ["Initiative 1", "Initiative 2", "Initiative 3", "Initiative 4"],
+    answer: [0],
+    explanation: "Initiatives that combine high value with high feasibility deliver results soonest and build credibility for harder work. Initiative 2 may be worth pursuing later, once its data foundations are in place. Low-value initiatives should not come first, even when they are easy." },
+
+  { domain: 2,
+    question: "A product-tagging AI pilot works, but it needs three full-time staff to manually relabel training data every month to stay accurate. It saves the equivalent of about one full-time role, and the vendor has no roadmap to reduce the relabeling effort.\nWhat is the BEST decision?",
+    options: [
+      "Scale the pilot to all product lines, because it works technically.",
+      "Terminate or redesign the initiative, because its ongoing cost exceeds the value it creates, so it is not sustainable.",
+      "Keep the pilot running unchanged indefinitely.",
+      "Hide the relabeling cost from the business case to secure funding."
+    ],
+    answer: [1],
+    explanation: "Prioritization must consider sustainability, meaning ongoing operating cost against ongoing value. An initiative that consumes more effort than it saves should be redesigned or stopped. Scaling it multiplies the loss, and misrepresenting costs undermines governance." },
+
+  { domain: 2,
+    question: "A telecom company wants a GenAI chatbot to reduce call volume. Analysis shows that 60% of calls come from customers confused by a billing system error that has been sending incorrect invoices for three months.\nWhat should the company do FIRST?",
+    options: [
+      "Launch the chatbot to answer questions about the incorrect invoices.",
+      "Fix the billing error that causes most of the calls, then reassess whether a chatbot is needed for the remaining volume.",
+      "Hire more call center agents and launch the chatbot later.",
+      "Train a model to predict which customers will call about billing."
+    ],
+    answer: [1],
+    explanation: "AI is not the right solution when the root cause is a process or system defect. Fixing the billing error removes most of the demand at its source. A chatbot or prediction model would only manage the symptoms of a problem the company can eliminate." },
+
+  { domain: 2,
+    question: "A commercial lender plans to move from manual underwriting to an AI-assisted process. Its 15 years of past underwriting decisions exist only as scanned PDF files, many with handwritten notes.\nWhich consideration should the lender address BEFORE building the AI solution?",
+    options: [
+      "Data readiness: digitizing, extracting, and validating the historical decisions so they can be used for training and evaluation.",
+      "Selecting the color scheme of the underwriting dashboard.",
+      "Choosing the largest available foundation model.",
+      "Announcing the launch date to brokers."
+    ],
+    answer: [0],
+    explanation: "Transitioning a process to AI depends on usable data. Scanned and handwritten records must be converted into structured, validated data before a model can learn from them or be evaluated against them. Interface design, model size, and announcements come after the data foundation exists." },
+
+  { domain: 2,
+    question: "An online retailer launches AI product recommendations. During the same quarter it also runs a large seasonal promotion and redesigns its homepage. Leadership wants to know how much additional revenue the recommendations generated.\nWhich approach BEST isolates the revenue effect of the recommendations?",
+    options: [
+      "Compare total revenue this quarter with the same quarter last year.",
+      "Ask the sales team to estimate the impact.",
+      "Run a controlled experiment that shows recommendations to a randomly selected group of shoppers and not to a holdout group, then compare revenue per shopper.",
+      "Count how many recommendations were displayed."
+    ],
+    answer: [2],
+    explanation: "A randomized holdout comparison removes the effects of other changes, such as the promotion and the redesign, because both groups experience them equally. Year-over-year comparisons mix all changes together, estimates are subjective, and display counts measure activity, not revenue." },
+
+  { domain: 2,
+    question: "An AI document-processing solution produces annual time savings worth $400,000 and error-reduction savings worth $100,000. Its total annual cost, including licensing, operations, and support, is $200,000.\nWhat is the annual return on investment (ROI)?",
+    options: ["40%", "60%", "150%", "250%"],
+    answer: [2],
+    explanation: "ROI = (total benefits - total costs) / total costs = ($500,000 - $200,000) / $200,000 = 150%. 250% wrongly divides total benefits by cost, and 40% and 60% do not follow from the figures." },
+
+  { domain: 2,
+    question: "A utility starts an AI predictive maintenance program. The long-term goal is fewer unplanned equipment outages, but those outages are rare, so a meaningful change will take more than a year to show.\nWhich metric is the BEST leading indicator that the program is on track?",
+    options: [
+      "Total number of unplanned outages for the year.",
+      "The percentage of AI maintenance alerts that crews investigate and act on within the agreed response time.",
+      "The number of sensors installed on the network.",
+      "The size of the data science team."
+    ],
+    answer: [1],
+    explanation: "A leading indicator moves early and predicts the outcome. Predictive maintenance only prevents outages if alerts are acted on, so the action rate on alerts signals whether value is coming. Annual outages are a lagging indicator, and sensor counts or team size measure inputs, not results." },
+
+  { domain: 2,
+    question: "Every request to a company's GenAI assistant includes the same 8,000-token block of instructions and reference material, followed by a short user question. Usage is growing quickly and so are costs.\nWhich optimization is MOST effective?",
+    options: [
+      "Use prompt caching for the repeated content, where the model service supports it, and trim instructions that are not needed.",
+      "Increase the maximum output token limit.",
+      "Add the full document library to every request so answers are more complete.",
+      "Switch every request to the largest available model."
+    ],
+    answer: [0],
+    explanation: "Prompt caching reuses a repeated prompt prefix, which reduces cost and latency for the common part of every request, and trimming unnecessary instructions shrinks it further. Larger outputs, more context, and bigger models all increase cost." },
+
+  { domain: 2,
+    question: "A company is running a 6-week pilot of a GenAI assistant. Usage is low and unpredictable, and the company has no reliable volume forecast yet.\nWhich pricing approach is MOST appropriate during the pilot?",
+    options: [
+      "Pay-as-you-go on-demand pricing, so cost follows actual usage with no long-term commitment.",
+      "A multiyear capacity commitment sized for the expected enterprise rollout.",
+      "Provisioned capacity sized for peak traffic, running 24 hours a day.",
+      "Purchase on-premises GPU servers so future usage has no per-request cost."
+    ],
+    answer: [0],
+    explanation: "When usage is small and uncertain, on-demand pricing avoids paying for idle capacity and keeps options open. Commitments and provisioned capacity suit steady, predictable volume. Buying hardware before demand is proven creates a large fixed cost and operational burden." },
+
+  { domain: 2,
+    question: "AI-generated property valuation is an emerging application in a company's industry. The technology is still immature, regulators have not issued clear guidance, and no competitor has a proven solution.\nWhich investment approach is MOST appropriate?",
+    options: [
+      "Commit the full multiyear transformation budget now to become the clear leader.",
+      "Make small, time-boxed investments in experiments that build knowledge and data readiness, and increase investment as the technology and regulation mature.",
+      "Ignore the area entirely until competitors launch products.",
+      "Wait for regulators to mandate AI valuations."
+    ],
+    answer: [1],
+    explanation: "Investment levels should match industry and technology maturity. Under high uncertainty, small options-style bets build capability and position the company to scale when the conditions become clearer. All-in bets carry outsized risk, and ignoring the area risks falling behind once it matures." },
+
+  { domain: 2,
+    question: "A logistics company is reviewing four proposed AI initiatives.\nWhich initiative is an OPERATIONAL IMPROVEMENT rather than a business model transformation?",
+    options: [
+      "Using AI to automatically reconcile carrier invoices against shipment records.",
+      "Selling an AI-powered delivery-time prediction service to retailers as a new paid product.",
+      "Launching an AI-driven freight marketplace that earns commission by matching shippers with spare truck capacity.",
+      "Offering customers outcome-based contracts priced on on-time delivery, made possible by AI route optimization."
+    ],
+    answer: [0],
+    explanation: "Automating invoice reconciliation makes an existing internal process more efficient. The other options change what the company sells or how it earns revenue (a new product, a new marketplace model, and a new pricing model), which is business model transformation." },
+
+  { domain: 2,
+    question: "Two banks deployed the same vendor's AI customer service assistant in the same year. Two years later, one bank's assistant resolves far more requests and is more trusted by customers.\nWhat MOST likely explains the difference?",
+    options: [
+      "The leading bank's vendor contract was cheaper.",
+      "The leading bank integrated the assistant with its own systems and data, built feedback loops to keep improving it, and developed internal skills to run it.",
+      "The leading bank deployed the assistant one week earlier.",
+      "The leading bank used a different color scheme in its chat window."
+    ],
+    answer: [1],
+    explanation: "Lasting advantage comes from what competitors cannot easily copy: integration with proprietary data and processes, continuous improvement from feedback, and organizational capability. The underlying tool was identical, so contract price, a one-week head start, and visual design do not explain a sustained gap." },
+
+  { domain: 2,
+    question: "A hotel group's stated strategy for the next three years is to win on guest experience. It has budget for one AI initiative. Two candidates have similar expected financial value and feasibility: an AI tool that optimizes back-office supply purchasing, and an AI concierge that personalizes guest requests and recommendations.\nWhich initiative should the group prioritize, and why?",
+    options: [
+      "The supply-purchasing tool, because back-office projects are always lower risk.",
+      "The AI concierge, because it directly supports the company's strategic priority while offering similar value.",
+      "Neither, because AI should only be used to cut costs.",
+      "Both, by splitting the budget evenly so that neither can succeed fully."
+    ],
+    answer: [1],
+    explanation: "When value and feasibility are similar, strategic alignment is the tiebreaker. Initiatives that advance the stated strategy earn more sustained sponsorship and compound toward the company's goals. Back-office work is not automatically lower risk, AI is not only for cost-cutting, and splitting a budget meant for one initiative risks two underfunded failures." },
+
+  { domain: 2,
+    question: "An insurer is defining KPIs for an AI claims-processing initiative.\nWhich KPIs measure TANGIBLE benefits?",
+    options: [
+      "Reduction in processing cost per claim.",
+      "Additional revenue from policyholders retained because claims were settled faster.",
+      "Employee sentiment about the new process.",
+      "Customer satisfaction scores after a claim is settled.",
+      "Improvement in brand perception in an annual survey."
+    ],
+    answer: [0, 1],
+    explanation: "Tangible benefits can be expressed directly in financial terms, such as lower cost per claim or retained revenue. Sentiment, satisfaction, and brand perception are intangible benefits: they matter, but they are measured with indicators rather than money." },
+
+  /* ================= Domain 3: AI Governance and Responsible AI Leadership (16) ================= */
+  { domain: 3,
+    question: "A company uses an AI system to recommend internal job openings to employees. Employees who receive recommendations ask why certain roles were suggested and others were not, and some lose trust in the system.\nWhich responsible AI dimension should the company strengthen?",
+    options: ["Explainability", "Robustness", "Privacy", "Controllability"],
+    answer: [0],
+    explanation: "Explainability means people can understand the factors behind an AI output, for example which skills or experience led to a recommendation. That builds trust and allows mistakes to be spotted. Robustness covers unexpected inputs, privacy covers data protection, and controllability covers the ability to steer or override system behavior." },
+
+  { domain: 3,
+    question: "An education company is launching a homework-help chatbot for students aged 10 to 14. The company is most concerned that the chatbot could produce content that is inappropriate or harmful for children.\nWhich responsible AI dimension and control BEST address this concern?",
+    options: [
+      "Safety, through age-appropriate content filters on inputs and outputs, blocked topics, and escalation of concerning conversations to staff.",
+      "Fairness, through equal response times for all students.",
+      "Transparency, through a notice that the chatbot uses AI, with no other controls.",
+      "Robustness, through faster servers during exam season."
+    ],
+    answer: [0],
+    explanation: "Safety covers preventing harmful outputs and misuse. For young users, that means strict content filtering, blocked topics, and a path to human support. Disclosure alone does not prevent harm, and response time and server capacity do not address harmful content." },
+
+  { domain: 3,
+    question: "An insurer's AI model classifies incoming claim descriptions. In testing, small changes such as spelling mistakes, abbreviations, or claims written in a mix of two languages often cause the model to classify claims incorrectly.\nWhich responsible AI dimension does this weakness concern, and what should the insurer do?",
+    options: [
+      "Robustness. Test the model with realistic noisy and unexpected inputs, and improve it until performance holds up.",
+      "Transparency. Tell customers that the model sometimes makes mistakes.",
+      "Privacy. Remove customer names from the claims.",
+      "Fairness. Give every claim the same category."
+    ],
+    answer: [0],
+    explanation: "Robustness is the ability to keep producing correct outputs when inputs are noisy, unexpected, or adversarial. Testing against realistic variations and improving the model addresses it directly. Disclosure does not fix errors, removing names does not affect classification accuracy, and a single category for every claim defeats the purpose of the model." },
+
+  { domain: 3,
+    question: "A logistics company deploys an AI agent that automatically reroutes shipments around delays. The operations team insists that it must be able to pause the agent, override any of its decisions, and narrow its permissions at any time.\nWhich responsible AI dimension do these requirements address?",
+    options: ["Controllability", "Fairness", "Veracity", "Transparency"],
+    answer: [0],
+    explanation: "Controllability means having mechanisms to monitor and steer an AI system's behavior, including pausing, overriding, and restricting it. This is especially important for agents that take actions. Fairness concerns effects on groups, veracity concerns correct outputs, and transparency concerns informing stakeholders." },
+
+  { domain: 3,
+    question: "A company is choosing a resume-screening model to shortlist applicants for human recruiters. Model A is 3% more accurate overall but shortlists qualified applicants from one age group at a much lower rate. Model B is slightly less accurate and shows only small differences between groups.\nWhat should the company do?",
+    options: [
+      "Choose Model A, because accuracy is the only objective measure.",
+      "Choose Model B, document the tradeoff and its rationale, and keep monitoring outcomes across groups.",
+      "Deploy both models and let each recruiter choose one.",
+      "Choose Model A and remove the age field from the input data."
+    ],
+    answer: [1],
+    explanation: "When business goals conflict with responsible AI principles in a high-impact decision such as hiring, a small accuracy gain does not justify unfair outcomes. Documenting the tradeoff supports accountability, and monitoring continues after deployment. Letting recruiters choose creates inconsistency, and removing the age field often leaves proxy variables that carry the same bias." },
+
+  { domain: 3,
+    question: "A company is deciding where human review is required for four AI use cases.\nWhich use case requires human review LEAST before its output is used?",
+    options: [
+      "An AI tool that helps employees search past internal meeting transcripts.",
+      "An AI system that recommends whether to deny a tenant's rental application.",
+      "An AI system that drafts medication dosage instructions for patients.",
+      "An AI system that recommends terminating supplier contracts automatically."
+    ],
+    answer: [0],
+    explanation: "Human oversight should be proportionate to the impact of errors. Internal search results are low impact and easy for the user to judge. Housing access, medical instructions, and contract terminations can cause significant harm when wrong, so they warrant review before action." },
+
+  { domain: 3,
+    question: "A bank has mature enterprise risk management, with risk committees and an internal audit function. It is now creating oversight for AI.\nWhich approach to AI risk accountability is MOST appropriate?",
+    options: [
+      "Create a separate AI committee that reports to nobody, so it can move faster than existing committees.",
+      "Integrate AI risk into the existing enterprise risk framework. Business units own their AI risks, risk and compliance functions oversee them, and internal audit provides independent assurance.",
+      "Let the data science team decide which AI risks are acceptable.",
+      "Assign all AI risk to the cloud provider."
+    ],
+    answer: [1],
+    explanation: "AI risk should flow through established governance so it is managed consistently with other enterprise risks, with clear first, second, and third lines of accountability. An isolated committee fragments oversight, builders should not approve their own risks, and a cloud provider's responsibilities do not cover how the bank uses AI." },
+
+  { domain: 3,
+    question: "A regulator requires a lender to reconstruct, for up to three years, how any AI-supported credit decision was made: what information was used, which model version produced the recommendation, and who approved the final decision.\nWhat should the lender implement?",
+    options: [
+      "Audit logging that records each decision's inputs, model version, output, and the human reviewer's action, stored securely for the required retention period.",
+      "Periodic screenshots of the model dashboard.",
+      "Retraining the model every quarter.",
+      "A policy that tells loan officers to remember their reasoning."
+    ],
+    answer: [0],
+    explanation: "Regulatory traceability requires complete, tamper-resistant records that link each decision to its inputs, the exact model version, the output, and the human approval, kept for the required period. Screenshots and memory are incomplete and unreliable, and retraining without version records makes reconstruction harder." },
+
+  { domain: 3,
+    question: "An executive assistant AI agent needs to read employees' calendars to propose meeting times. During design, an engineer gives the agent full read, write, and delete permissions on all calendars, to avoid permission errors.\nWhat should the company do?",
+    options: [
+      "Keep full permissions, because the agent will be instructed never to delete anything.",
+      "Apply least privilege: grant only the permissions the agent's task requires, and add write access only with explicit approval controls if that capability is later needed.",
+      "Give the agent the administrator account so it can resolve any errors.",
+      "Remove all permissions and have employees paste their calendars into the chat."
+    ],
+    answer: [1],
+    explanation: "Least privilege limits damage if an agent is manipulated or makes a mistake. Instructions are not a security control. Administrator access magnifies risk, and removing all permissions breaks the use case while pushing data through less controlled channels." },
+
+  { domain: 3,
+    question: "A company plans to fine-tune a model on 200,000 historical customer service emails, which contain names, phone numbers, and account details.\nWhich actions should the company take to protect this data?",
+    options: [
+      "Detect and redact or mask personal data in the emails before using them for fine-tuning.",
+      "Restrict access to the training dataset to authorized staff and encrypt it at rest and in transit.",
+      "Keep all personal data in the dataset, because more detail improves accuracy.",
+      "Share the dataset with all employees so more people can check its quality.",
+      "Rely on the model to forget personal data after training."
+    ],
+    answer: [0, 1],
+    explanation: "Minimizing personal data before training reduces the risk of the model memorizing and exposing it, and access control with encryption protects the dataset itself. Keeping unnecessary personal data, sharing it widely, and assuming the model will forget it all increase privacy risk." },
+
+  { domain: 3,
+    question: "An AI tool was classified as low risk when it was approved to summarize customer complaints for weekly reporting. Six months later, a team starts using its summaries to decide automatically which customers receive compensation.\nWhat should happen next?",
+    options: [
+      "Nothing, because the tool was already approved.",
+      "Reassess the tool's risk classification for the new use and apply the controls that the higher-impact use requires before it continues.",
+      "Ban the tool for every team.",
+      "Let the team continue and review the decision at the annual governance meeting."
+    ],
+    answer: [1],
+    explanation: "Risk classification applies to a use, not just a tool, and must be revisited when the use changes. Deciding compensation affects customers directly, which calls for stronger controls such as human review and monitoring. Prior approval does not cover the new use, a blanket ban punishes legitimate uses, and waiting a year leaves the risk uncontrolled." },
+
+  { domain: 3,
+    question: "A company has deployed a customer-facing GenAI chatbot and wants to manage its risks in production.\nWhich monitoring mechanisms should it put in place?",
+    options: [
+      "Regular sample-based human review of conversations against quality and policy standards.",
+      "Automated alerts when guardrail interventions, ungrounded answers, or negative user feedback rise above defined thresholds.",
+      "Monitoring of server CPU utilization only.",
+      "A single review once a year.",
+      "Turning off conversation logging so that no data is retained for review."
+    ],
+    answer: [0, 1],
+    explanation: "Production AI needs both human judgment (sampled reviews) and automated detection (threshold-based alerts on safety and quality signals) to catch problems early. CPU metrics show system health, not answer quality. Annual reviews are too infrequent, and disabling logging removes the evidence needed to detect issues. Logging can be designed with appropriate privacy protections." },
+
+  { domain: 3,
+    question: "A social platform's comment-moderation model flags posts written in one regional dialect as toxic far more often than equivalent posts in standard English. An audit finds that the human annotators who labeled the training data often misread that dialect as hostile.\nWhat does this finding show, and what should the platform do?",
+    options: [
+      "Bias can enter at the data-labeling stage. Improve the labeling guidelines, include annotators familiar with the dialect, audit and correct the labels, then retrain and monitor outcomes by group.",
+      "Bias only comes from the algorithm, so the platform should switch algorithms.",
+      "The model is working correctly, because it reflects the labels it was given.",
+      "Remove all posts in that dialect from the platform."
+    ],
+    answer: [0],
+    explanation: "Bias can be introduced at many lifecycle stages, including labeling, where human judgment shapes what the model learns. The fix targets the source (guidelines, annotators, and label audits) and is followed by ongoing monitoring. Changing the algorithm leaves the biased labels in place, and treating flawed labels as ground truth or removing posts harms the affected users." },
+
+  { domain: 3,
+    question: "Users of a public GenAI chatbot are posting screenshots of prompts that trick it into producing offensive content, for example by asking it to role-play a character with no rules.\nWhich controls should the company implement?",
+    options: [
+      "Input safeguards that detect prompt attacks such as jailbreak attempts before the request reaches the model.",
+      "Output content filters that block offensive or harmful responses before they are shown to users.",
+      "Removing the chatbot's system prompt so it has fewer instructions to break.",
+      "Raising the temperature so attackers cannot reproduce the same output.",
+      "Relying on the terms of service to deter users."
+    ],
+    answer: [0, 1],
+    explanation: "Defense in depth (detecting attacks on the way in and filtering harmful content on the way out) limits harmful outputs even when some attacks get through. Removing the system prompt weakens control, randomness does not prevent harm, and terms of service do not stop the model from producing the content." },
+
+  { domain: 3,
+    question: "A furniture retailer's marketing team wants to fine-tune an image generation model on thousands of product photos downloaded from a competitor's website, so the model can produce similar images for its own catalog.\nWhat should the company do?",
+    options: [
+      "Proceed, because the photos are publicly accessible online.",
+      "Do not use the competitor's photos. Train only on images the company owns or has licensed for this use, and involve legal review.",
+      "Proceed, but slightly blur the downloaded photos first.",
+      "Proceed, and remove the competitor's watermarks from the images."
+    ],
+    answer: [1],
+    explanation: "Public availability does not grant the right to use content for training. Using the competitor's copyrighted photos creates intellectual property risk, which is avoided by using owned or properly licensed material with legal review. Blurring images or removing watermarks does not change ownership, and removing watermarks can create additional legal problems." },
+
+  { domain: 3,
+    question: "A model that predicts delivery times suddenly became much less accurate. Investigation shows that an upstream warehouse system was upgraded and now sends zero for the package-weight field on every record. Nothing alerted the team, and the model kept producing predictions.\nWhich control would have prevented this from going unnoticed?",
+    options: [
+      "Automated data validation in the input pipeline that checks value ranges and distributions and alerts the team when they deviate from expected patterns.",
+      "A larger model that is less sensitive to individual fields.",
+      "Retraining the model on a fixed annual schedule.",
+      "Reviewing model accuracy at the end of each year."
+    ],
+    answer: [0],
+    explanation: "Data quality can degrade silently when upstream systems change. Validation checks on incoming data, such as an all-zero weight field, catch the problem immediately and protect reliability. A larger model would still consume bad data, and annual retraining or reviews would detect the issue months too late." },
+
+  /* ================= Domain 4: Business Readiness, Leadership, and AI Transformation (15) ================= */
+  { domain: 4,
+    question: "A distribution company has a CEO who champions AI, an engaged and curious workforce, and a modern cloud platform. However, its operational data sits in about 40 departmental spreadsheets with inconsistent formats, and no one owns data quality.\nWhich readiness gap is MOST likely to block its first AI initiatives?",
+    options: ["Leadership alignment", "Data readiness", "Cultural preparedness", "Technical infrastructure"],
+    answer: [1],
+    explanation: "A readiness assessment looks at every dimension and finds the weakest link. Here leadership, culture, and infrastructure are strong, but scattered, inconsistent data with no ownership will undermine any model built on it." },
+
+  { domain: 4,
+    question: "A company has several AI applications in production, with monitoring and a governance process. However, each team builds its own data pipelines, prompt libraries, and guardrails from scratch, which duplicates effort and creates inconsistent controls.\nWhat is the MOST appropriate next step on its maturity journey?",
+    options: [
+      "Return to experimentation and pause all production applications.",
+      "Move toward scale by creating shared, reusable components and standard patterns that all teams can use under common governance.",
+      "Let each team keep building independently, because it has worked so far.",
+      "Replace all production applications with a single new application."
+    ],
+    answer: [1],
+    explanation: "Organizations that have launched production solutions mature by standardizing: shared platforms, reusable components, and consistent governance let them scale efficiently. Pausing production, continuing duplication, or rebuilding everything as one application do not address the problem." },
+
+  { domain: 4,
+    question: "During an AI capability assessment, a company records several findings.\nWhich findings are GOVERNANCE gaps?",
+    options: [
+      "AI use cases are not classified by risk before they are approved.",
+      "No one is formally accountable for decisions made with AI system outputs.",
+      "Data scientists do not have enough GPU capacity for training experiments.",
+      "Most frontline employees have low AI literacy.",
+      "The CRM platform is several versions out of date."
+    ],
+    answer: [0, 1],
+    explanation: "Risk classification and accountability for AI-supported decisions are governance capabilities. GPU capacity and an outdated CRM are technology gaps, and low AI literacy is a people gap. Classifying gaps correctly lets leaders target the right investment." },
+
+  { domain: 4,
+    question: "A retailer at an early stage of AI maturity, with low AI literacy, scattered data, and no AI governance, sets a goal of enterprise-wide AI adoption within three years.\nWhich progression pathway is MOST appropriate?",
+    options: [
+      "Start by training a proprietary foundation model, then build everything on it.",
+      "Build foundations first (literacy, priority data sets, basic governance), deliver a few quick-win use cases to prove value, then expand with shared platforms and standards.",
+      "Launch AI in every department at the same time in year one.",
+      "Spend all three years writing an AI strategy before starting any project."
+    ],
+    answer: [1],
+    explanation: "Investments should follow the current maturity level: build foundations, prove value with early wins, then scale on shared capabilities. A proprietary foundation model is far beyond an early-stage company's needs. Launching everywhere at once overwhelms weak foundations, and a strategy with no execution delivers no value." },
+
+  { domain: 4,
+    question: "Analysts at an energy company report that they spend about 60% of their time finding datasets, working out what the fields mean, and identifying who can grant access, before any AI work can begin.\nWhich foundation would MOST improve this situation?",
+    options: [
+      "A data catalog with business definitions, named data owners, and a standard request process for access.",
+      "Larger laptops for the analysts.",
+      "A policy requiring analysts to work longer hours.",
+      "A new AI model that guesses what each field means."
+    ],
+    answer: [0],
+    explanation: "A data catalog combined with clear ownership and an access process makes data discoverable, understandable, and obtainable, which is the foundation of a data strategy. Hardware, longer hours, and a guessing model do not address missing metadata, ownership, or access routes." },
+
+  { domain: 4,
+    question: "A successful AI pilot for production scheduling ran on CSV files that a planner exported from the ERP system every Monday. The company now wants the solution to run in production on current data across all plants.\nWhich infrastructure requirement must be addressed?",
+    options: [
+      "Reliable, secured integration with the ERP system (APIs or data pipelines) so current data flows automatically, with monitoring for failures.",
+      "Continuing with manual CSV exports, carried out by more planners.",
+      "Rebuilding the ERP system from scratch.",
+      "Moving the pilot to a more powerful laptop."
+    ],
+    answer: [0],
+    explanation: "Production AI needs automated, secure, and monitored data integration with source systems. Manual exports do not scale and introduce delays and errors. Rebuilding the ERP system is unnecessary, and a laptop is not a production platform." },
+
+  { domain: 4,
+    question: "A CEO is selecting AI champions to sustain adoption momentum across 12 departments.\nWho are the BEST candidates?",
+    options: [
+      "Respected, enthusiastic employees from each department who understand its daily work and are given dedicated time to support colleagues.",
+      "Only members of the IT department, because they understand technology best.",
+      "New hires, because they have no attachment to old processes.",
+      "Employees chosen at random to keep the selection fair."
+    ],
+    answer: [0],
+    explanation: "Effective champions combine credibility with peers, knowledge of how their department works, and enthusiasm, and they need protected time to do the role. Restricting champions to IT, new hires, or random picks loses the trusted local influence that drives adoption." },
+
+  { domain: 4,
+    question: "At a large insurer, the legal and compliance teams reject almost every AI proposal because of uncertainty about the risks. Business teams have stopped proposing ideas.\nWhich leadership intervention BEST addresses this risk-averse culture?",
+    options: [
+      "Remove legal and compliance from AI decisions.",
+      "Have leaders sponsor a governed sandbox with pre-agreed guardrails, approved data, and a short list of low-risk use cases, created jointly with legal and compliance so teams can learn safely.",
+      "Wait until competitors prove AI is safe.",
+      "Require business teams to accept all of the risk personally."
+    ],
+    answer: [1],
+    explanation: "Risk aversion is best addressed by making safe experimentation possible: clear guardrails defined together with legal and compliance turn a blanket no into a controlled yes. Removing those functions creates real risk, waiting cedes ground to competitors, and pushing personal liability onto teams deepens the fear." },
+
+  { domain: 4,
+    question: "A consumer goods company wants to quickly surface AI use-case ideas from business staff across functions and build enthusiasm for AI in the next month.\nWhich workforce development approach BEST fits this goal?",
+    options: [
+      "A cross-functional hackathon with real business problem statements, approved AI tools, and sandbox data, followed by funding for the most promising ideas.",
+      "A self-paced, optional e-learning catalog.",
+      "A detailed policy document emailed to all staff.",
+      "A university degree program for selected managers."
+    ],
+    answer: [0],
+    explanation: "Hackathons generate ideas quickly, mix business and technical perspectives, and create visible energy. Following through on the best ideas sustains that momentum. Optional e-learning and policy documents are slow and passive, and degree programs take years." },
+
+  { domain: 4,
+    question: "A company is planning responsible AI training as AI tools spread across the organization.\nWho should receive responsible AI training?",
+    options: [
+      "Only the data science team, because it builds the models.",
+      "All employees who use AI tools, at a foundational level, with deeper role-based training for people who build, approve, or oversee AI systems.",
+      "Only senior executives, because they set strategy.",
+      "Only employees who have caused AI-related incidents."
+    ],
+    answer: [1],
+    explanation: "Responsible AI depends on everyone who uses or influences AI understanding its limits, risks, and policies. Builders, approvers, and reviewers need deeper training for their specific duties. Training only one group leaves most real-world use unprepared, and training only after incidents is reactive." },
+
+  { domain: 4,
+    question: "A home insurer's customer support team now uses AI to categorize tickets and draft replies. Leadership is defining which work should remain human-led.\nWhich tasks should remain human-led?",
+    options: [
+      "Supporting a customer whose claim involves the death of a family member.",
+      "Deciding whether to grant a policy exception for a long-standing customer in unusual circumstances.",
+      "Assigning incoming tickets to categories.",
+      "Summarizing call notes after each interaction.",
+      "Drafting first replies to common how-to questions."
+    ],
+    answer: [0, 1],
+    explanation: "Situations that call for empathy or judgment and discretion in unusual circumstances benefit most from human strengths. Categorization, summarization, and first drafts of routine replies are repetitive tasks that AI handles well under human oversight." },
+
+  { domain: 4,
+    question: "A company is following an iterative AI transformation approach with the phases envision, experiment, launch, and scale.\nWhich activity belongs to the ENVISION phase?",
+    options: [
+      "Identifying and prioritizing AI opportunities that are tied to measurable business outcomes, and building leadership alignment around them.",
+      "Rolling out proven AI solutions to every business unit.",
+      "Moving a validated pilot into production with operational monitoring.",
+      "Running proofs of concept to test technical feasibility."
+    ],
+    answer: [0],
+    explanation: "Envision is about defining where AI can create value and aligning leaders on priorities and outcomes. Proofs of concept belong to experiment, production deployment to launch, and enterprise-wide rollout to scale." },
+
+  { domain: 4,
+    question: "A newly appointed Chief AI Officer must show progress quickly to keep the board's support for a multiyear AI program.\nWhich FIRST initiative is MOST appropriate?",
+    options: [
+      "A visible, low-risk use case with available data that can show measurable results within about 90 days.",
+      "A three-year effort to replace the core banking platform with an AI-native system.",
+      "A high-risk autonomous agent that makes customer credit decisions with no human review.",
+      "An initiative with no defined success metrics, so it cannot be judged a failure."
+    ],
+    answer: [0],
+    explanation: "Scaling methodologies start with short-term wins that are visible, achievable, and measurable. Early wins build credibility and momentum for larger efforts. Multiyear rebuilds show no early value, high-risk autonomy invites setbacks, and initiatives without metrics cannot demonstrate progress." },
+
+  { domain: 4,
+    question: "A company's central AI center of excellence (COE) reviews, builds, and supports every AI project. As demand has grown, its request backlog has reached six months, and business units are starting to work around it.\nHow should the operating model evolve?",
+    options: [
+      "Disband the COE and let each business unit work independently.",
+      "Move to a hub-and-spoke model: the central COE sets standards, shared platforms, and governance, while trained AI teams embedded in business units deliver their own projects.",
+      "Double the COE's size and keep it as the only team allowed to deliver AI.",
+      "Freeze all new AI requests until the backlog is cleared."
+    ],
+    answer: [1],
+    explanation: "As AI scales, a fully centralized COE becomes a bottleneck. A hub-and-spoke model keeps consistent standards and governance centrally while distributing delivery capacity to the business. Disbanding the COE loses consistency, doubling it delays the same problem, and a freeze stalls value and encourages shadow AI." },
+
+  { domain: 4,
+    question: "A pricing model that runs from a data scientist's notebook has produced valuable results for three months. The company now wants to rely on it for daily pricing decisions across the business.\nWhich actions are required to make it production-grade?",
+    options: [
+      "Put the code and model under version control, with an automated, repeatable deployment process that includes rollback.",
+      "Add production monitoring and alerting with a named owner who is responsible for responding to issues.",
+      "Keep running it from the notebook, because it has worked so far.",
+      "Copy the model manually to a shared drive each week.",
+      "Skip the security review to avoid slowing down the launch."
+    ],
+    answer: [0, 1],
+    explanation: "Production-grade AI needs traceable versions, repeatable deployment with rollback, monitoring, and clear operational ownership. A notebook run and weekly manual copies are fragile and untraceable, and skipping the security review leaves risks unmanaged in a system that drives business decisions." }
+];
+
+/* =====================================================================
+   ENGINE
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const WORDS = ['ZERO','ONE','TWO','THREE','FOUR','FIVE'];
+const LETTERS = 'ABCDEFGH';
+const LIVE_KEY = 'aibc01_mock2_live';
+let S = null;          // exam state
+let timerId = null;
+let reviewFilter = 'all';
+let resultFilter = 'all';
+
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function ss(op, k, v){ try { if (op === 'get') return sessionStorage.getItem(k); if (op === 'set') sessionStorage.setItem(k, v); if (op === 'del') sessionStorage.removeItem(k); } catch (e) {} return null; }
+
+function examSize(){
+  const n = Math.min(CONFIG.questionCount, QUESTION_BANK.length);
+  const minutes = n >= CONFIG.questionCount ? CONFIG.durationMinutes : Math.max(5, Math.round(n * CONFIG.durationMinutes / CONFIG.questionCount));
+  return { n, minutes };
+}
+
+/* pick questions by domain weight when the bank is larger than the exam */
+function pickQuestions(){
+  const { n } = examSize();
+  const pool = QUESTION_BANK.map((q, i) => ({ ...q, _src: i }));
+  if (pool.length <= n) return CONFIG.shuffleQuestions ? shuffle(pool) : pool;
+  const byDom = {};
+  pool.forEach(q => (byDom[q.domain] = byDom[q.domain] || []).push(q));
+  Object.keys(byDom).forEach(d => byDom[d] = shuffle(byDom[d]));
+  const picked = [];
+  Object.keys(DOMAINS).forEach(d => {
+    const want = Math.round(n * DOMAINS[d].weight / 100);
+    picked.push(...(byDom[d] || []).splice(0, want));
+  });
+  const rest = shuffle(Object.values(byDom).flat());
+  while (picked.length < n && rest.length) picked.push(rest.pop());
+  const out = picked.slice(0, n);
+  return CONFIG.shuffleQuestions ? shuffle(out) : out;
+}
+
+function buildExam(name){
+  const qs = pickQuestions().map(q => {
+    const idx = q.options.map((_, i) => i);
+    const order = CONFIG.shuffleOptions ? shuffle(idx) : idx;
+    return { ...q, order, multi: q.answer.length > 1 };
+  });
+  const { minutes } = examSize();
+  return {
+    name, qs,
+    answers: qs.map(() => []),       // original option indices
+    flags: new Set(),
+    idx: 0,
+    durationMs: minutes * 60000,
+    startedAt: Date.now(),
+    deadline: Date.now() + minutes * 60000,
+    armedAt: Date.now() + 1500,
+    fsArmed: false,
+    warnings: 0,
+    live: true,
+    endReason: null,
+    endedAt: null
+  };
+}
+
+/* ---------- start screen ---------- */
+function initStart(){
+  const { n, minutes } = examSize();
+  $('f-q').textContent = n;
+  $('f-t').textContent = minutes + ' min';
+  if (QUESTION_BANK.length < CONFIG.questionCount){
+    const note = $('sample-note');
+    note.hidden = false;
+    note.textContent = 'This practice set has ' + n + ' questions, so the time limit is scaled to ' + minutes + ' minutes (the same pace as the real exam). With a full question bank the test runs ' + CONFIG.questionCount + ' questions in ' + CONFIG.durationMinutes + ' minutes.';
+  }
+  $('domain-list').innerHTML = Object.entries(DOMAINS).map(([k, d]) =>
+    '<div class="dom-row"><span class="dom-num">D' + k + '</span><div><div>' + esc(d.name) + '</div><div class="dom-bar"><i style="width:' + (d.weight / 28 * 100) + '%"></i></div></div><span class="dom-w">' + d.weight + '%</span></div>'
+  ).join('');
+  if (CONFIG.maxWarnings > 0){
+    $('rule-lock').innerHTML = '<b>Do not leave the exam window.</b> Switching tabs, minimizing the browser, opening another app, or exiting full screen gives you a warning. After ' + CONFIG.maxWarnings + ' warning' + (CONFIG.maxWarnings > 1 ? 's' : '') + ', the next one <b>ends your exam</b>. Reloading the page ends it immediately.';
+  }
+  if (ss('get', LIVE_KEY)){ $('reload-notice').hidden = false; ss('del', LIVE_KEY); }
+}
+
+function startExam(){
+  const name = $('cand-name').value.trim();
+  const msg = $('form-msg');
+  $('cand-name').classList.remove('invalid'); $('agree-row').classList.remove('invalid');
+  if (name.length < 2){
+    msg.textContent = 'Enter your full name to start the exam.';
+    $('cand-name').classList.add('invalid'); $('cand-name').focus();
+    return;
+  }
+  if (!$('agree').checked){
+    msg.textContent = 'Tick the box to confirm you have read the exam rules.';
+    $('agree-row').classList.add('invalid'); $('agree').focus();
+    return;
+  }
+  msg.textContent = '';
+  try {
+    S = buildExam(name);
+    ss('set', LIVE_KEY, '1');
+    $('start').hidden = true; $('results').hidden = true; $('exam').hidden = false;
+    $('x-who').textContent = name;
+    reviewFilter = 'all';
+    showQuestionView();
+    renderAll();
+    tick();
+    clearInterval(timerId);
+    timerId = setInterval(tick, 250);
+    window.scrollTo(0, 0);
+  } catch (err) {
+    S = null;
+    $('exam').hidden = true; $('start').hidden = false;
+    msg.textContent = 'The exam could not start (' + err.message + '). Reload the page and try again.';
+    return;
+  }
+  // Full screen is requested after the exam is already running, so a browser that
+  // blocks or ignores the request can never stop the exam from starting.
+  if (CONFIG.requireFullscreen){
+    const el = document.documentElement;
+    const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req){
+      try {
+        const p = req.call(el);
+        if (p && p.catch) p.catch(() => {});
+      } catch (e) {}
+    }
+  }
+}
+$('start-btn').addEventListener('click', startExam);
+$('cand-name').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); startExam(); } });
+['input','change'].forEach(ev => {
+  $('cand-name').addEventListener(ev, () => { $('cand-name').classList.remove('invalid'); $('form-msg').textContent = ''; });
+  $('agree').addEventListener(ev, () => { $('agree-row').classList.remove('invalid'); $('form-msg').textContent = ''; });
+});
+
+/* ---------- exam rendering ---------- */
+function answeredCount(){ return S.answers.filter(a => a.length).length; }
+
+function renderAll(){ renderNav(); renderQuestion(); renderCounts(); }
+
+function renderCounts(){
+  const a = answeredCount(), t = S.qs.length;
+  $('c-ans').textContent = a;
+  $('c-rem').textContent = t - a;
+  $('c-flag').textContent = S.flags.size;
+  $('x-prog').style.width = (a / t * 100) + '%';
+  $('x-pos').textContent = 'Question ' + (S.idx + 1) + ' of ' + t;
+}
+
+function renderNav(){
+  const g = $('navgrid');
+  g.innerHTML = S.qs.map((q, i) => {
+    const cls = ['navbtn'];
+    if (S.answers[i].length) cls.push('ans');
+    if (S.flags.has(i)) cls.push('flag');
+    if (i === S.idx && $('review-view').hidden) cls.push('cur');
+    const st = (S.answers[i].length ? 'answered' : 'not answered') + (S.flags.has(i) ? ', flagged' : '');
+    return '<button type="button" class="' + cls.join(' ') + '" data-i="' + i + '" aria-label="Question ' + (i + 1) + ', ' + st + '"' + (i === S.idx ? ' aria-current="true"' : '') + '>' + (i + 1) + '</button>';
+  }).join('');
+}
+
+function renderQuestion(){
+  const q = S.qs[S.idx];
+  const need = q.answer.length;
+  $('q-label').textContent = 'Question ' + (S.idx + 1);
+  $('q-stem').textContent = q.question;
+  $('q-select').innerHTML = q.multi ? '<span class="selectn">Select ' + (WORDS[need] || need) + '.</span>' : '';
+  const type = q.multi ? 'checkbox' : 'radio';
+  $('q-options').innerHTML = '<legend class="sr-only">Answer options</legend>' + q.order.map((oi, pos) => {
+    const sel = S.answers[S.idx].includes(oi);
+    const id = 'opt-' + S.idx + '-' + pos;
+    return '<label class="opt' + (q.multi ? ' multi' : '') + (sel ? ' sel' : '') + '" for="' + id + '">' +
+      '<input class="sr-only" type="' + type + '" name="q' + S.idx + '" id="' + id + '" data-o="' + oi + '"' + (sel ? ' checked' : '') + '>' +
+      '<span class="letter">' + LETTERS[pos] + '</span><span class="otext">' + esc(q.options[oi]) + '</span></label>';
+  }).join('');
+  $('limit-msg').textContent = '';
+  const f = S.flags.has(S.idx);
+  $('flag-btn').setAttribute('aria-pressed', f);
+  $('flag-text').textContent = f ? 'Flagged for review' : 'Flag for review';
+  $('prev-btn').disabled = S.idx === 0;
+  const last = S.idx === S.qs.length - 1;
+  $('next-btn').innerHTML = last ? 'Review answers' : 'Next<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  renderCounts();
+}
+
+$('q-options').addEventListener('change', e => {
+  if (!S || !S.live) return;
+  const inp = e.target; if (!inp.dataset) return;
+  const oi = +inp.dataset.o, q = S.qs[S.idx];
+  let cur = S.answers[S.idx];
+  if (!q.multi){ cur = [oi]; }
+  else if (inp.checked){
+    if (cur.length >= q.answer.length){
+      inp.checked = false;
+      $('limit-msg').textContent = 'This question needs ' + q.answer.length + ' answers. Clear one of your selections to choose a different option.';
+      return;
+    }
+    cur = cur.concat(oi);
+  } else { cur = cur.filter(x => x !== oi); }
+  S.answers[S.idx] = cur;
+  [...$('q-options').querySelectorAll('.opt')].forEach(l => l.classList.toggle('sel', l.querySelector('input').checked));
+  $('limit-msg').textContent = '';
+  renderNav(); renderCounts();
+});
+
+function go(i){
+  if (i < 0 || i >= S.qs.length) return;
+  S.idx = i;
+  showQuestionView();
+  renderNav(); renderQuestion();
+  window.scrollTo({ top: 0 });
+}
+function showQuestionView(){ $('q-view').hidden = false; $('review-view').hidden = true; $('review-btn').textContent = 'Review all'; }
+
+$('navgrid').addEventListener('click', e => { const b = e.target.closest('.navbtn'); if (b) go(+b.dataset.i); });
+$('prev-btn').addEventListener('click', () => go(S.idx - 1));
+$('next-btn').addEventListener('click', () => { if (S.idx === S.qs.length - 1) openReview(); else go(S.idx + 1); });
+$('flag-btn').addEventListener('click', () => {
+  if (S.flags.has(S.idx)) S.flags.delete(S.idx); else S.flags.add(S.idx);
+  renderQuestion(); renderNav();
+});
+$('toggle-nav').addEventListener('click', e => {
+  const w = $('navwrap'); w.hidden = !w.hidden;
+  e.target.setAttribute('aria-expanded', !w.hidden);
+  e.target.textContent = w.hidden ? 'Show question navigator' : 'Hide question navigator';
+});
+
+/* ---------- review screen ---------- */
+function openReview(){
+  $('q-view').hidden = true; $('review-view').hidden = false;
+  $('review-btn').textContent = 'Back to question';
+  renderReview(); renderNav(); window.scrollTo({ top: 0 });
+}
+function renderReview(){
+  const items = S.qs.map((q, i) => ({ i, a: S.answers[i].length > 0, f: S.flags.has(i) })).filter(x =>
+    reviewFilter === 'all' || (reviewFilter === 'flag' && x.f) || (reviewFilter === 'un' && !x.a) || (reviewFilter === 'ans' && x.a));
+  $('rgrid').innerHTML = items.length ? items.map(x =>
+    '<button type="button" class="rtile" data-i="' + x.i + '"><b>Question ' + (x.i + 1) + '</b><span style="display:flex;gap:6px;align-items:center">' +
+    (x.f ? '<span class="fl">Flagged</span>' : '') +
+    '<span class="st ' + (x.a ? 'st-a' : 'st-u') + '">' + (x.a ? 'Answered' : 'Unanswered') + '</span></span></button>').join('')
+    : '<div class="empty">No questions match this filter.</div>';
+}
+$('rgrid').addEventListener('click', e => { const b = e.target.closest('.rtile'); if (b) go(+b.dataset.i); });
+document.querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => {
+  reviewFilter = b.dataset.f;
+  document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  renderReview();
+}));
+$('review-btn').addEventListener('click', () => { if ($('review-view').hidden) openReview(); else go(S.idx); });
+
+/* ---------- end exam ---------- */
+$('end-btn').addEventListener('click', () => {
+  const a = answeredCount();
+  $('m-ans').textContent = a; $('m-un').textContent = S.qs.length - a; $('m-flag').textContent = S.flags.size;
+  $('end-text').textContent = (S.qs.length - a) > 0
+    ? 'You still have ' + (S.qs.length - a) + ' unanswered question' + ((S.qs.length - a) > 1 ? 's' : '') + '. Unanswered questions are scored as incorrect. Once you end the exam you cannot change your answers.'
+    : 'Once you end the exam you cannot change your answers.';
+  $('end-modal').hidden = false; $('m-cancel').focus();
+});
+$('m-cancel').addEventListener('click', () => { $('end-modal').hidden = true; });
+$('m-review').addEventListener('click', () => { $('end-modal').hidden = true; reviewFilter = 'all'; document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', x.dataset.f === 'all')); openReview(); });
+$('m-end').addEventListener('click', () => { $('end-modal').hidden = true; finish('submitted'); });
+
+/* ---------- timer ---------- */
+function fmt(ms){
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+}
+function tick(){
+  if (!S || !S.live) return;
+  const left = S.deadline - Date.now();
+  $('x-time').textContent = fmt(left);
+  const t = $('x-timer');
+  t.classList.toggle('warn', left <= 10 * 60000 && left > 5 * 60000);
+  t.classList.toggle('crit', left <= 5 * 60000);
+  if (left <= 0) finish('time');
+}
+
+/* ---------- exam lock (leaving the window) ---------- */
+function isLive(){ return S && S.live && Date.now() > S.armedAt; }
+function violation(reason){
+  if (!isLive()) return;
+  if (S.warnings < CONFIG.maxWarnings){
+    S.warnings++;
+    S.armedAt = Date.now() + 2000;
+    $('warn-text').textContent = reason + ' This is warning ' + S.warnings + ' of ' + CONFIG.maxWarnings + '. If it happens again after your last warning, your exam ends and is scored as submitted.';
+    $('warn-modal').hidden = false;
+    return;
+  }
+  finish('violation', reason);
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') violation('You switched to another tab or minimized the browser.'); });
+window.addEventListener('blur', () => {
+  if (!isLive()) return;
+  setTimeout(() => { if (isLive() && !document.hasFocus()) violation('The exam window lost focus because another window or app was opened.'); }, 700);
+});
+function onFullscreenChange(){
+  if (!S || !S.live) return;
+  const inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  if (inFs){ S.fsArmed = true; S.armedAt = Math.max(S.armedAt, Date.now() + 800); return; }
+  if (S.fsArmed) violation('You exited full-screen mode.');
+}
+document.addEventListener('fullscreenchange', onFullscreenChange);
+document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+$('warn-ok').addEventListener('click', async () => {
+  $('warn-modal').hidden = true;
+  if (S && S.fsArmed && !document.fullscreenElement && document.documentElement.requestFullscreen){
+    try { await document.documentElement.requestFullscreen(); } catch (e) {}
+  }
+  S.armedAt = Date.now() + 1500;
+});
+window.addEventListener('beforeunload', e => { if (S && S.live){ e.preventDefault(); e.returnValue = ''; } });
+['copy','cut','paste','contextmenu','selectstart','dragstart'].forEach(ev =>
+  document.addEventListener(ev, e => { if (S && S.live && !(e.target.closest && e.target.closest('input[type=text],#cand-name'))) e.preventDefault(); }));
+document.addEventListener('keydown', e => {
+  if (!S || !S.live) return;
+  const k = (e.key || '').toLowerCase();
+  if ((e.ctrlKey || e.metaKey) && ['c','x','v','a','p','s','u','f','r'].includes(k)) e.preventDefault();
+  if (k === 'f12' || k === 'f5' || k === 'printscreen') e.preventDefault();
+  if (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(k)) e.preventDefault();
+});
+
+/* ---------- finish + scoring ---------- */
+function isCorrect(i){
+  const a = S.answers[i], q = S.qs[i];
+  return a.length === q.answer.length && q.answer.every(x => a.includes(x));
+}
+function finish(reason, detail){
+  if (!S || !S.live) return;
+  S.live = false; S.endReason = reason; S.endDetail = detail || ''; S.endedAt = Date.now();
+  clearInterval(timerId);
+  ss('del', LIVE_KEY);
+  $('end-modal').hidden = true; $('warn-modal').hidden = true;
+  if (document.fullscreenElement && document.exitFullscreen){ document.exitFullscreen().catch(() => {}); }
+  renderResults();
+  $('exam').hidden = true; $('results').hidden = false;
+  window.scrollTo(0, 0);
+}
+
+function renderResults(){
+  const t = S.qs.length;
+  const correct = S.qs.filter((_, i) => isCorrect(i)).length;
+  const pct = correct / t;
+  const scaled = Math.round(100 + 900 * pct);
+  const pass = scaled >= CONFIG.passingScore;
+  const used = Math.min(S.endedAt - S.startedAt, S.durationMs);
+
+  $('res-hero').className = 'res-hero ' + (pass ? 'pass' : 'fail');
+  $('r-verdict').textContent = pass ? 'Pass' : 'Did not pass';
+  $('r-title').textContent = pass ? 'Well done, ' + S.name + '. You are above the passing score.' : S.name + ', you are below the passing score this time.';
+  $('r-sub').textContent = 'AWS Certified AI Business Strategist (AIB-C01) Mock Test 2 · ' + new Date(S.endedAt).toLocaleString();
+  $('r-score').textContent = scaled;
+  $('r-fill').style.width = ((scaled - 100) / 900 * 100) + '%';
+  const term = $('r-term');
+  if (S.endReason === 'violation'){ term.hidden = false; term.textContent = 'Exam ended automatically: ' + S.endDetail + ' Your answers up to that point were scored.'; }
+  else if (S.endReason === 'time'){ term.hidden = false; term.textContent = 'Time ran out. The exam was submitted automatically with the answers you had selected.'; }
+  else term.hidden = true;
+
+  $('r-correct').textContent = correct + '/' + t;
+  $('r-pct').textContent = Math.round(pct * 100) + '%';
+  const mins = Math.floor(used / 60000), secs = Math.floor(used % 60000 / 1000);
+  $('r-time').textContent = mins + ':' + String(secs).padStart(2, '0');
+  $('r-un').textContent = S.answers.filter(a => !a.length).length;
+
+  $('r-domains').innerHTML = Object.entries(DOMAINS).map(([k, d]) => {
+    const idxs = S.qs.map((q, i) => q.domain == k ? i : -1).filter(i => i >= 0);
+    if (!idxs.length) return '';
+    const c = idxs.filter(isCorrect).length, p = Math.round(c / idxs.length * 100);
+    const lvl = p >= 70 ? ['lvl-ok', 'Meets competency', 'var(--green)'] : p >= 50 ? ['lvl-mid', 'Needs review', 'var(--amber-line)'] : ['lvl-low', 'Focus area', '#E57373'];
+    return '<div class="dres-row"><div class="dres-top"><span>D' + k + ' · ' + esc(d.name) + '<span class="lvl ' + lvl[0] + '">' + lvl[1] + '</span></span><b>' + c + '/' + idxs.length + ' · ' + p + '%</b></div>' +
+      '<div class="dres-track"><i style="width:' + p + '%;background:' + lvl[2] + '"></i></div></div>';
+  }).join('');
+  resultFilter = 'all';
+  document.querySelectorAll('[data-rf]').forEach(x => x.setAttribute('aria-pressed', x.dataset.rf === 'all'));
+  renderAnswerReview();
+}
+
+function renderAnswerReview(){
+  const rows = S.qs.map((q, i) => ({ q, i, ok: isCorrect(i), un: !S.answers[i].length, f: S.flags.has(i) })).filter(r =>
+    resultFilter === 'all' || (resultFilter === 'wrong' && !r.ok && !r.un) || (resultFilter === 'right' && r.ok) || (resultFilter === 'un' && r.un) || (resultFilter === 'flag' && r.f));
+  $('r-review').innerHTML = rows.length ? rows.map(r => {
+    const badge = r.un ? '<span class="rv-badge b-un">Unanswered</span>' : r.ok ? '<span class="rv-badge b-ok">Correct</span>' : '<span class="rv-badge b-no">Incorrect</span>';
+    const opts = r.q.order.map((oi, pos) => {
+      const isAns = r.q.answer.includes(oi), picked = S.answers[r.i].includes(oi);
+      const cls = isAns ? 'correct' : (picked ? 'wrong' : '');
+      const tag = isAns && picked ? 'Your answer · correct' : isAns ? 'Correct answer' : picked ? 'Your answer' : '';
+      return '<div class="rv-opt ' + cls + '"><span class="letter">' + LETTERS[pos] + '</span><span>' + esc(r.q.options[oi]) + '</span><span class="rv-tag">' + tag + '</span></div>';
+    }).join('');
+    const sel = r.q.multi ? '\nSelect ' + (WORDS[r.q.answer.length] || r.q.answer.length) + '.' : '';
+    return '<details class="rv"><summary>' + badge + '<span class="rv-sum"><small>Q' + (r.i + 1) + '</small>' + esc(r.q.question.split('\n')[0]) + '</span><span class="rv-meta">' + (r.f ? 'Flagged · ' : '') + 'D' + r.q.domain + '</span></summary>' +
+      '<div class="rv-body"><div class="rv-domain">Domain ' + r.q.domain + ' · ' + esc(DOMAINS[r.q.domain].name) + '</div><div class="rv-stem">' + esc(r.q.question + sel) + '</div>' + opts +
+      '<div class="rv-exp"><b>Explanation.</b> ' + esc(r.q.explanation || '') + '</div></div></details>';
+  }).join('') : '<div class="empty">No questions match this filter.</div>';
+}
+document.querySelectorAll('[data-rf]').forEach(b => b.addEventListener('click', () => {
+  resultFilter = b.dataset.rf;
+  document.querySelectorAll('[data-rf]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  renderAnswerReview();
+}));
+
+$('retake-btn').addEventListener('click', () => {
+  S = null;
+  $('results').hidden = true; $('start').hidden = false;
+  $('agree').checked = false; $('form-msg').textContent = ''; $('reload-notice').hidden = true;
+  window.scrollTo(0, 0);
+});
+
+initStart();
+</script>
+</body>
+</html>
